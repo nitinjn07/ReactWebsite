@@ -1,42 +1,61 @@
 import React from 'react'
 
 export default function Footer() {
+  
+  let senddata = ()=>
+  {
+    let name = document.getElementById("name").value;
+    let phone = document.getElementById("phone").value;
+    let email = document.getElementById("email").value;  
+
+    let data = {
+      "Name": name,
+      "Email": email,
+      "Phone": phone
+    };
+    
+    fetch(`http://localhost:1337/api/enquiry-forms`, {
+      method: "POST",
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({data})
+    }).then((res) => { return res.json() }).then((data) => {
+      if (data.data.attributes.Email === email)
+      {
+      Swal.fire({
+        title: "Good job!",
+        text: "You have succesfully Registred",
+        icon: "success"
+      })
+    }
+    }).catch();
+  }
+
   return (
       <>
           <div className="footer_section">
     <div className="container">
       <h1 className="touch_text">Get In Touch</h1>
       <div className="email_box">
-        <div className="input_main">
-          <form action="/action_page.php">
+            <div className="input_main">
+             
+          <form>
             <div className="form-group">
-              <input type="text" className="email-bt" placeholder="Name" name="Name" />
+              <input type="text" id="name" className="email-bt" placeholder="Name" name="Name" />
             </div>
             <div className="form-group">
-              <input type="text" className="email-bt" placeholder="Phone" name="Phone" />
+              <input type="text" id="phone" className="email-bt" placeholder="Phone" name="Phone" />
             </div>
             <div className="form-group">
-              <input type="text" className="email-bt" placeholder="Email" name="Email" />
+              <input type="text" id="email" className="email-bt" placeholder="Email" name="Email" />
             </div>
-            <div className="form-group">
-              <textarea className="massage-bt" placeholder="Massage" rows={5} id="comment" name="Massage" defaultValue={""} />
-            </div>
+            
           </form>
-          <div className="send_bt"><a href="#">SEND</a></div>
+          <div className="send_bt"><button class="btn btn-warning" onClick={senddata}>SEND</button></div>
         </div>
       </div>
-      <div className="call_main">
-        <div className="call_text"><img src="images/call-icon.png" /><span className="padding_left_15">Call Now  +01 123467890</span></div>
-        <div className="call_text"><img src="images/mail-icon.png" /><span className="padding_left_15">demo@gmail.com</span></div>
-      </div>
-      <div className="social_icon">
-        <ul>
-          <li><a href="#"><img src="images/fb-icon.png" /></a></li>
-          <li><a href="#"><img src="images/twitter-icon.png" /></a></li>
-          <li><a href="#"><img src="images/linkedin-icon.png" /></a></li>
-          <li><a href="#"><img src="images/instagram-icon.png" /></a></li>
-        </ul>
-      </div>
+    
     </div>
   </div>
   <div className="copyright_section">
